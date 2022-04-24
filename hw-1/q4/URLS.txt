@@ -1,0 +1,4 @@
+https://www.youtube.com/watch?v=FLiKTJqyyvs&t=11s
+https://aliexpress.ru/brands/samsung?CatId=&minPrice=1000&page=4&SearchText=samsung&d=y&ltype=wholesale&origin=y
+https://yandex.ru/search/?text=pyenv+команды&clid=2270455&win=429&lr=118513&p=4
+https://docs.djangoproject.com/en/4.0/glossary/#term-project
