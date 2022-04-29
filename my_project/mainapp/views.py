@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
@@ -14,6 +15,11 @@ class LoginView(TemplateView):
 
 class NewsView(TemplateView):
     template_name = 'mainapp/news.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+
+        return context_data
 
 
 class ContactsView(TemplateView):

@@ -1,0 +1,53 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% include 'mainapp/includes/inc_css.html' %}
+
+    <title>Welcome to Braniac!</title>
+</head>
+
+<body>
+
+    <!-- navigation-panel -->
+
+    {% include 'mainapp/includes/inc_nav_panel.html' %}
+    
+    <!-- /navigation-panel -->
+
+
+
+    <!-- content-block -->
+
+    {% block content %}
+
+    {% endblock content %}
+
+    <!-- /content-block -->
+
+
+
+
+    <!-- Footer -->
+
+    {% include 'mainapp/includes/inc_footer_navigation.html' %}
+
+    <!-- /Footer -->
+
+
+
+
+    <!-- JavaScript section -->
+
+    {% include 'mainapp/includes/inc_js.html' %}
+
+
+
+</body>
+
+</html>
