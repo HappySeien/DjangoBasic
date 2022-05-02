@@ -13,7 +13,7 @@
     <div class="card my-2">
       <div class="card-body">
         <h5 class="card-title">Новый Django 4.0</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ news.date | date:'Y-m-d h-i-s' }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">2021-12-07 06:29:02</h6>
         <p class="card-text">Что нового в <a href="{% url 'mainapp:news_search' %}?text=Документация Django 4.0"> Django 4.0</a></p>
         <a href="#" class="card-link">Подробнее</a>
       </div>
@@ -24,7 +24,7 @@
     <div class="card my-2">
       <div class="card-body">
         <h5 class="card-title">{{ news.title }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ news.date | date:'Y-m-d h-i-s' }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">{{ news.date | date:'Y-m-d h:i:s' }}</h6>
         <p class="card-text">{{ news.previev }}</p>
         <a href="#" class="card-link">Подробнее</a>
       </div>
