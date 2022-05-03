@@ -2,6 +2,8 @@ from multiprocessing import context
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from datetime import datetime
+import os
+import json
 
 # Create your views here.
 
@@ -20,29 +22,9 @@ class NewsView(TemplateView):
     def get_context_data(self, page, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data['page_num'] = page
-        context_data['news_list'] = [
-            {
-                'title': 'Тестовая новость 1',
-                'date': datetime.now(),
-                'previev': 'какое то превью',
-            }, {
-                'title': 'Тестовая новость 1',
-                'date': datetime.now(),
-                'previev': 'какое то превью',
-            }, {
-                'title': 'Тестовая новость 1',
-                'date': datetime.now(),
-                'previev': 'какое то превью',
-            }, {
-                'title': 'Тестовая новость 1',
-                'date': datetime.now(),
-                'previev': 'какое то превью',
-            }, {
-                'title': 'Тестовая новость 1',
-                'date': datetime.now(),
-                'previev': 'какое то превью',
-            }, 
-        ]
+        json_data = os.path.join(os.getcwd(), 'my_project\\mainapp\\json_data\\mainapp\\news.json')
+        with open(json_data, 'r', encoding='utf-8') as f:
+            context_data['news_list'] = json.load(f)
 
         return context_data
 
