@@ -16,10 +16,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item {% if url_name == 'news' %} active {% endif %}">
-                    <a class="nav-link" href="{% url 'mainapp:news' %}">Новости</a>
+                    <a class="nav-link" href="{% url 'mainapp:news' page=1 %}">Новости</a>
                 </li>
                 <li class="nav-item {% if url_name == 'courses' %} active {% endif %}">
-                    <a class="nav-link" href="{% url 'mainapp:courses' %}">Курсы</a>
+                    <a class="nav-link" href="{% url 'mainapp:courses' page=1 %}">Курсы</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="ddProfile" role="button" data-toggle="dropdown"

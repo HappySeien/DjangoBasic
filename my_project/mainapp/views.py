@@ -17,8 +17,9 @@ class LoginView(TemplateView):
 class NewsView(TemplateView):
     template_name = 'mainapp/news.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, page, **kwargs):
         context_data = super().get_context_data(**kwargs)
+        context_data['page_num'] = page
         context_data['news_list'] = [
             {
                 'title': 'Тестовая новость 1',
@@ -89,6 +90,24 @@ class ContactsView(TemplateView):
 
 class CoursesListView(TemplateView):
     template_name = 'mainapp/courses_list.html'
+
+    def get_context_data(self, page, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        
+        context_data['page_num'] = page
+
+        return context_data
+
+
+class CoursesPaginatorView(CoursesListView):
+
+    def get_context_data(self, page, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        
+        context_data['page_num'] = page
+
+        return context_data
+
 
 
 class DocSiteView(TemplateView):
