@@ -1,6 +1,6 @@
 [
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 11,
     "fields": {
       "course": 1,
@@ -13,7 +13,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 12,
     "fields": {
       "course": 1,
@@ -26,7 +26,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 13,
     "fields": {
       "course": 1,
@@ -39,7 +39,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 14,
     "fields": {
       "course": 1,
@@ -52,7 +52,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 15,
     "fields": {
       "course": 1,
@@ -65,7 +65,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 16,
     "fields": {
       "course": 1,
@@ -78,7 +78,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 17,
     "fields": {
       "course": 1,
@@ -91,7 +91,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 18,
     "fields": {
       "course": 1,
@@ -104,7 +104,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 21,
     "fields": {
       "course": 2,
@@ -117,7 +117,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 22,
     "fields": {
       "course": 2,
@@ -130,7 +130,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 23,
     "fields": {
       "course": 2,
@@ -143,7 +143,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 24,
     "fields": {
       "course": 2,
@@ -156,7 +156,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 25,
     "fields": {
       "course": 2,
@@ -169,7 +169,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 26,
     "fields": {
       "course": 2,
@@ -182,7 +182,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 27,
     "fields": {
       "course": 2,
@@ -195,7 +195,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 28,
     "fields": {
       "course": 2,
@@ -208,7 +208,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 31,
     "fields": {
       "course": 3,
@@ -221,7 +221,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 32,
     "fields": {
       "course": 3,
@@ -234,7 +234,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 33,
     "fields": {
       "course": 3,
@@ -247,7 +247,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 34,
     "fields": {
       "course": 3,
@@ -260,7 +260,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 35,
     "fields": {
       "course": 3,
@@ -273,7 +273,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 36,
     "fields": {
       "course": 3,
@@ -286,7 +286,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 37,
     "fields": {
       "course": 3,
@@ -299,7 +299,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 38,
     "fields": {
       "course": 3,
@@ -312,7 +312,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 41,
     "fields": {
       "course": 4,
@@ -325,7 +325,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 42,
     "fields": {
       "course": 4,
@@ -338,7 +338,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 43,
     "fields": {
       "course": 4,
@@ -351,7 +351,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 44,
     "fields": {
       "course": 4,
@@ -364,7 +364,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 45,
     "fields": {
       "course": 4,
@@ -377,7 +377,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 46,
     "fields": {
       "course": 4,
@@ -390,7 +390,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 47,
     "fields": {
       "course": 4,
@@ -403,7 +403,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 48,
     "fields": {
       "course": 4,
@@ -416,7 +416,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 51,
     "fields": {
       "course": 5,
@@ -429,7 +429,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 52,
     "fields": {
       "course": 5,
@@ -442,7 +442,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 53,
     "fields": {
       "course": 5,
@@ -455,7 +455,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 54,
     "fields": {
       "course": 5,
@@ -468,7 +468,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 55,
     "fields": {
       "course": 5,
@@ -481,7 +481,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 56,
     "fields": {
       "course": 5,
@@ -494,7 +494,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 57,
     "fields": {
       "course": 5,
@@ -507,7 +507,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 58,
     "fields": {
       "course": 5,
@@ -520,7 +520,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 61,
     "fields": {
       "course": 6,
@@ -533,7 +533,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 62,
     "fields": {
       "course": 6,
@@ -546,7 +546,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 63,
     "fields": {
       "course": 6,
@@ -559,7 +559,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 64,
     "fields": {
       "course": 6,
@@ -572,7 +572,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 65,
     "fields": {
       "course": 6,
@@ -585,7 +585,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 66,
     "fields": {
       "course": 6,
@@ -598,7 +598,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 67,
     "fields": {
       "course": 6,
@@ -611,7 +611,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 68,
     "fields": {
       "course": 6,
@@ -624,7 +624,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 71,
     "fields": {
       "course": 7,
@@ -637,7 +637,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 72,
     "fields": {
       "course": 7,
@@ -650,7 +650,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 73,
     "fields": {
       "course": 7,
@@ -663,7 +663,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 74,
     "fields": {
       "course": 7,
@@ -676,7 +676,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 75,
     "fields": {
       "course": 7,
@@ -689,7 +689,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 76,
     "fields": {
       "course": 7,
@@ -702,7 +702,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 77,
     "fields": {
       "course": 7,
@@ -715,7 +715,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 78,
     "fields": {
       "course": 7,
@@ -728,7 +728,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 81,
     "fields": {
       "course": 8,
@@ -741,7 +741,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 82,
     "fields": {
       "course": 8,
@@ -754,7 +754,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 83,
     "fields": {
       "course": 8,
@@ -767,7 +767,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 84,
     "fields": {
       "course": 8,
@@ -780,7 +780,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 85,
     "fields": {
       "course": 8,
@@ -793,7 +793,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 86,
     "fields": {
       "course": 8,
@@ -806,7 +806,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 87,
     "fields": {
       "course": 8,
@@ -819,7 +819,7 @@
     }
   },
   {
-    "model": "mainapp.lesson",
+    "model": "mainapp.lessons",
     "pk": 88,
     "fields": {
       "course": 8,

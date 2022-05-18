@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.conf import settings
 
-import json
+from mainapp import models
 
 # Create your views here.
 
@@ -31,9 +31,7 @@ class NewsView(TemplateView):
     def get_context_data(self, page, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
         context_data['page_num'] = page
-        json_data = settings.JSON_DATA_MAINAPP
-        with open(json_data / 'news.json', 'r', encoding='utf-8') as f:
-            context_data['news_list'] = json.load(f)
+        context_data['news_list'] = models.News.objects.all()
 
         return context_data
 
@@ -93,7 +91,7 @@ class CoursesListView(TemplateView):
 
     def get_context_data(self, page, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
-        
+        context_data['courses_list'] = models.Courses.objects.values_list('cover', 'name')
         context_data['page_num'] = page
 
         return context_data

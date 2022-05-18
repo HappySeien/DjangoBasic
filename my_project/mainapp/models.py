@@ -3,10 +3,21 @@ from django.db import models
 # Create your models here.
 
 
+class BaseManager(models.Manager):
+    """
+    Базовая настройка менеджера моделей
+    """
+
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted=False)
+
+
 class BaseModel(models.Model):
     """
     Базовая модель
     """
+
+    objects = BaseManager()
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создана', editable=False)
     updated_at =models.DateTimeField(auto_now=True, verbose_name='Обновлена', editable=False)
