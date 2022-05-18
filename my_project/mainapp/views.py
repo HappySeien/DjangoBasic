@@ -1,37 +1,49 @@
 from multiprocessing import context
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from datetime import datetime
-import os
+from django.conf import settings
+
 import json
 
 # Create your views here.
 
 
 class IndexView(TemplateView):
+    """
+    Отображение главной страницы
+    """
     template_name = 'mainapp/index.html'
 
 
 class LoginView(TemplateView):
+    """
+    Отображение страницы входа
+    """
     template_name = 'mainapp/login.html'
 
 
 class NewsView(TemplateView):
+    """
+    Отображение страницы новостей
+    """
     template_name = 'mainapp/news.html'
 
-    def get_context_data(self, page, **kwargs):
+    def get_context_data(self, page, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
         context_data['page_num'] = page
-        json_data = os.path.join(os.getcwd(), 'my_project\\mainapp\\json_data\\mainapp\\news.json')
-        with open(json_data, 'r', encoding='utf-8') as f:
+        json_data = settings.JSON_DATA_MAINAPP
+        with open(json_data / 'news.json', 'r', encoding='utf-8') as f:
             context_data['news_list'] = json.load(f)
 
         return context_data
 
 
 class NewsPaginatorView(NewsView):
+    """
+    Пагинация для страницы новостей
+    """
 
-    def get_context_data(self, page, **kwargs):
+    def get_context_data(self, page, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
         
         context_data['page_num'] = page
@@ -40,9 +52,12 @@ class NewsPaginatorView(NewsView):
 
 
 class ContactsView(TemplateView):
+    """
+    Отображение страницы контакты
+    """
     template_name = 'mainapp/contacts.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
 
         context_data['contacts'] = [
@@ -71,9 +86,12 @@ class ContactsView(TemplateView):
 
 
 class CoursesListView(TemplateView):
+    """
+    Отображение страницы курсов
+    """
     template_name = 'mainapp/courses_list.html'
 
-    def get_context_data(self, page, **kwargs):
+    def get_context_data(self, page, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
         
         context_data['page_num'] = page
@@ -82,8 +100,11 @@ class CoursesListView(TemplateView):
 
 
 class CoursesPaginatorView(CoursesListView):
+    """
+    Пагинация для страницы курсов
+    """
 
-    def get_context_data(self, page, **kwargs):
+    def get_context_data(self, page, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
         
         context_data['page_num'] = page
@@ -93,4 +114,7 @@ class CoursesPaginatorView(CoursesListView):
 
 
 class DocSiteView(TemplateView):
+    """
+    Отображение страницы Документация по сайту
+    """
     template_name = 'mainapp/doc_site.html'
