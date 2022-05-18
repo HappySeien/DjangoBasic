@@ -11,10 +11,10 @@
             {% for course in courses_list %}
 
                 <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-                <a href="#">
-                    <img src="{% static course.0 %}" class="card-img-top" alt="...">
+                <a href="{% url 'mainapp:courses_detail' page=page_num pk=course.0 %}">
+                    <img src="{% static course.1 %}" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title text-center">{{ course.1 }}</h5>
+                        <h5 class="card-title text-center">{{ course.2 }}</h5>
                     </div>
                 </a>
                 </div>

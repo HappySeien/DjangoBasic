@@ -9,7 +9,13 @@
 
     {% include 'mainapp/includes/inc_css.html' %}
 
-    <title>Welcome to Braniac!</title>
+    <title>
+        {% block title %} 
+    
+        Welcome to Braniac! 
+    
+        {% endblock title %}
+    </title>
 </head>
 
 <body>
