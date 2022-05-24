@@ -19,14 +19,14 @@
       </div>
     </div>
 
-    {% for news in news_list %}
+    {% for news in page_obj %}
     
     <div class="card my-2">
       <div class="card-body">
         <h5 class="card-title">{{ news.title }}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{ news.created_at|date:"Y-m-d h-i-s"  }}</h6>
         <p class="card-text">{{ news.intro }}</p>
-        <a href="{% url 'mainapp:news_detail' page=page_num pk=news.pk %}" class="card-link">Подробнее</a>
+        <a href="{% url 'mainapp:news_detail' page=page_obj.number pk=news.pk %}" class="card-link">Подробнее</a>
       </div>
     </div>
     

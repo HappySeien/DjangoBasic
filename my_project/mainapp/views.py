@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
 from mainapp import models
 
@@ -20,29 +20,16 @@ class LoginView(TemplateView):
     template_name = 'mainapp/login.html'
 
 
-class NewsView(TemplateView):
+class NewsView(ListView):
     """
     Отображение страницы новостей
     """
     template_name = 'mainapp/news.html'
+    paginate_by: int = 5
+    model = models.News
 
-    def get_context_data(self, page, **kwargs) -> dict():
+    def get_context_data(self, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
-        context_data['page_num'] = page
-        context_data['news_list'] = models.News.objects.all()
-
-        return context_data
-
-
-class NewsPaginatorView(NewsView):
-    """
-    Пагинация для страницы новостей
-    """
-
-    def get_context_data(self, page, **kwargs) -> dict():
-        context_data = super().get_context_data(**kwargs)
-        
-        context_data['page_num'] = page
 
         return context_data
 
@@ -77,30 +64,18 @@ class ContactsView(TemplateView):
         return context_data
 
 
-class CoursesListView(TemplateView):
+class CoursesListView(ListView):
     """
     Отображение страницы курсов
     """
     template_name = 'mainapp/courses_list.html'
 
-    def get_context_data(self, page, **kwargs) -> dict():
+    paginate_by: int = 5
+    model = models.Courses
+    queryset = models.Courses.objects.values_list('pk', 'cover', 'name')
+
+    def get_context_data(self, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
-
-        context_data['courses_list'] = models.Courses.objects.values_list('pk', 'cover', 'name')
-        context_data['page_num'] = page
-
-        return context_data
-
-
-class CoursesPaginatorView(CoursesListView):
-    """
-    Пагинация для страницы курсов
-    """
-
-    def get_context_data(self, page, **kwargs) -> dict():
-        context_data = super().get_context_data(**kwargs)
-        
-        context_data['page_num'] = page
 
         return context_data
 
