@@ -100,7 +100,7 @@ class EditProfileView(TemplateView, LoginRequiredMixin):
     def post(self, request, *args, **kwargs):
         try:
             if request.POST.get('username'):
-                request.user.username = request.POST.get('username')
+                request.user.username = request.POST.get('username').lower()
             if request.POST.get('first_name'):
                 request.user.first_name = request.POST.get('first_name')
             if request.POST.get('last_name'):
