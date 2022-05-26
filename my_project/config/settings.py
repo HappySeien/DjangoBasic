@@ -92,6 +92,8 @@ TEMPLATES = [
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    'config.backends.CaseInsensitiveModelBackend',
+    'config.backends.EmailBackend',
 )
 
 SOCIAL_AUTH_GITHUB_KEY = os.getenv('SOCIAL_AUTH_GITHUB_KEY')

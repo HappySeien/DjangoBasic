@@ -55,7 +55,7 @@ class RegisterView(TemplateView):
                     )
                 ):
                     new_user = models.User.objects.create(
-                        username=request.POST.get("username"),
+                        username=request.POST.get("username").lower(),  # Все в нижний регистр, для сохранения уникальности
                         first_name=request.POST.get("first_name"),
                         last_name=request.POST.get("last_name"),
                         age=request.POST.get("age")
