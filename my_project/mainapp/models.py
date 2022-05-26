@@ -2,6 +2,8 @@ from django.db import models
 
 # Create your models here.
 
+NULLABLE = {'blank': True, 'null': True}
+
 
 class BaseManager(models.Manager):
     """
@@ -39,7 +41,7 @@ class News(BaseModel):
 
     title = models.CharField(max_length=256, verbose_name='Заголовок')
     intro = models.CharField(max_length=1024, verbose_name='Вступление')
-    body = models.TextField(blank=True, null=True, verbose_name='Текст')
+    body = models.TextField(**NULLABLE, verbose_name='Текст')
     body_as_markdown = models.BooleanField(default=False, verbose_name='Markdown')
 
     def __str__(self) -> str:
@@ -55,7 +57,7 @@ class Courses(BaseModel):
     """
 
     name = models.CharField(max_length=256, verbose_name='Название')
-    description = models.TextField(verbose_name='Описание', blank=True, null=True)
+    description = models.TextField(verbose_name='Описание', **NULLABLE)
     description_as_markdown = models.BooleanField(default=False, verbose_name = 'Markdown')
     cost = models.DecimalField(max_digits=8, decimal_places=2, default=0, verbose_name='Цена')
     cover = models.CharField(max_length=25, default='no_image.svg', verbose_name='Изображение')
@@ -75,7 +77,7 @@ class Lessons(BaseModel):
     course = models.ForeignKey(Courses, on_delete=models.CASCADE)
     num = models.PositiveIntegerField(verbose_name='Номер лекции')
     title = models.CharField(max_length=256, verbose_name='Тема лекции')
-    description = models.TextField(blank=True, null=True, verbose_name='Описание')
+    description = models.TextField(**NULLABLE, verbose_name='Описание')
     description_as_markdown = models.BooleanField(default=False, verbose_name = 'Markdown')
 
     def __str__(self) -> str:

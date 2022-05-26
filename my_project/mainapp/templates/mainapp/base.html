@@ -26,6 +26,11 @@
     
     <!-- /navigation-panel -->
 
+    {% block nessages %}
+    
+    {% include 'authapp/includes/inc_messages.html' %}
+    
+    {% endblock nessages %}
 
 
     <!-- content-block -->
@@ -52,6 +57,23 @@
 
     {% include 'mainapp/includes/inc_js.html' %}
 
+    {% block js %}
+
+        <script>
+            $(document).ready(function () {
+
+                {% if messages %}
+                
+                // Toasts
+                $(".toast").toast({ delay: 5000 });
+                $(".toast").toast("show");
+
+                {% endif %}
+
+                });
+        </script>
+
+    {% endblock js %}
 
 
 </body>

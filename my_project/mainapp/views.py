@@ -13,13 +13,6 @@ class IndexView(TemplateView):
     template_name = 'mainapp/index.html'
 
 
-class LoginView(TemplateView):
-    """
-    Отображение страницы входа
-    """
-    template_name = 'mainapp/login.html'
-
-
 class NewsView(ListView):
     """
     Отображение страницы новостей

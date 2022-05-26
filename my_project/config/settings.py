@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'markdownify.apps.MarkdownifyConfig',
+    'authapp',
     'mainapp',
 ]
 
@@ -64,6 +65,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -103,6 +105,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Default user auth model
+
+AUTH_USER_MODEL = 'authapp.User'
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+# login, logout urls
+
+LOGIN_REDIRECT_URL = 'mainapp:index'
+
+LOGOUT_REDIRECT_URL = 'mainapp:index'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -124,6 +138,13 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS =[
     BASE_DIR / 'static',
 ]
+
+# Media filles
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
