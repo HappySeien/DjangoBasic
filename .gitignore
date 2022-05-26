@@ -46,4 +46,5 @@ lesson_0_staticSite/
 *.env
 
 # media
-media/*$user
+media/
+!avatar_default.svg
