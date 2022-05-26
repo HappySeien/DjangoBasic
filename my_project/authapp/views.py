@@ -48,36 +48,36 @@ class RegisterView(TemplateView):
         try:
             if all(
                     (
-                        request.POST.get("username"),
-                        request.POST.get("email"),
-                        request.POST.get("password1"),
-                        request.POST.get("password1") == request.POST.get("password2"),
+                        request.POST.get('username'),
+                        request.POST.get('email'),
+                        request.POST.get('password1'),
+                        request.POST.get('password1') == request.POST.get('password2'),
                     )
                 ):
                     new_user = models.User.objects.create(
-                        username=request.POST.get("username").lower(),  # Все в нижний регистр, для сохранения уникальности
-                        first_name=request.POST.get("first_name"),
-                        last_name=request.POST.get("last_name"),
-                        age=request.POST.get("age")
-                        if request.POST.get("age")
+                        username=request.POST.get('username').lower(),  # Все в нижний регистр, для сохранения уникальности
+                        first_name=request.POST.get('first_name'),
+                        last_name=request.POST.get('last_name'),
+                        age=request.POST.get('age')
+                        if request.POST.get('age')
                         else 0,
-                        avatar=request.FILES.get("avatar"),
-                        email=request.POST.get("email"),
+                        avatar=request.FILES.get('avatar'),
+                        email=request.POST.get('email'),
                     )
-                    new_user.set_password(request.POST.get("password1"))
+                    new_user.set_password(request.POST.get('password1'))
                     new_user.save()
                     messages.add_message(
                         request, messages.INFO, 
-                        _("Registration success!")
+                        _('Registration success!')
                     )
-                    return HttpResponseRedirect(reverse_lazy("authapp:login"))
+                    return HttpResponseRedirect(reverse_lazy('authapp:login'))
         except Exception as exp:
             messages.add_message(
                 request,
                 messages.WARNING,
-                mark_safe(f"Something goes worng:<br>{exp}")
+                mark_safe(f'Something goes worng:<br>{exp}')
             )
-            return HttpResponseRedirect(reverse_lazy("authapp:register"))
+            return HttpResponseRedirect(reverse_lazy('authapp:register'))
 
 
 class LogoutView(LogoutView):
@@ -86,7 +86,7 @@ class LogoutView(LogoutView):
     """
 
     def dispatch(self, request, *args, **kwargs):
-        messages.add_message(self.request, messages.INFO, _("See you later!"))
+        messages.add_message(self.request, messages.INFO, _('See you later!'))
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -114,13 +114,13 @@ class EditProfileView(TemplateView, LoginRequiredMixin):
                     request.user.avatar.path
                 ):
                     os.remove(request.user.avatar.path)
-                request.user.avatar = request.FILES.get("avatar")
+                request.user.avatar = request.FILES.get('avatar')
             request.user.save()
-            messages.add_message(request, messages.INFO, _("Saved!"))
+            messages.add_message(request, messages.INFO, _('Saved!'))
         except Exception as exp:
             messages.add_message(
                 request,
                 messages.WARNING,
-                mark_safe(f"Something goes worng:<br>{exp}"),
+                mark_safe(f'Something goes worng:<br>{exp}'),
                 )
-        return HttpResponseRedirect(reverse_lazy("authapp:profile_edit"))
+        return HttpResponseRedirect(reverse_lazy('authapp:profile_edit'))
