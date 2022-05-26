@@ -42,3 +42,5 @@ db.sqlite3-journal
 *.vsix
 
 lesson_0_staticSite/
+
+Variables.txt
