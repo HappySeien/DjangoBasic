@@ -43,4 +43,7 @@ db.sqlite3-journal
 
 lesson_0_staticSite/
 
-.env
+*.env
+
+# media
+media/*$user

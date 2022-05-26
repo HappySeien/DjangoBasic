@@ -10,18 +10,28 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 JSON_DATA_MAINAPP = BASE_DIR / 'json_data/mainapp'
+
+# Под переменные окружения
+DOTENV_PATH = BASE_DIR / 'Variables.env'
+
+if os.path.exists(DOTENV_PATH):
+    load_dotenv(dotenv_path=DOTENV_PATH)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$p5+=f#=ez)z@q9x*2%ea0yru5zh6_mjc52vsgi8-o#54#9rmc'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'markdownify.apps.MarkdownifyConfig',
+    'social_django',
     'authapp',
     'mainapp',
 ]
@@ -68,10 +79,24 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+
+# social_django auth backend settings
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GITHUB_KEY = os.getenv('SOCIAL_AUTH_GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = os.getenv('SOCIAL_AUTH_GITHUB_SECRET')
+
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
