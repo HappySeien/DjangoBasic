@@ -35,8 +35,15 @@ class LessonsAdmin(BaseAdminSettings):
 
 @admin.register(models.CourseTeachers)
 class CourseTeachersAdmin(BaseAdminSettings):
-    list_display = ['pk', 'first_name', 'second_name', 'created_at', 'deleted']
+    list_display = ['pk', 'get_courses', 'first_name', 'second_name', 'created_at', 'deleted']
     search_fields = ['first_name', 'second_name']
+    list_filter = ['deleted']
+    list_select_related = True
+
+    def get_courses(self, object):
+        return ', '.join((i.name for i in object.course.all()))
+
+    get_courses.short_description = 'Курсы'
 
 
 @admin.register(models.Contacts)
