@@ -10,6 +10,7 @@ class NewsAdmin(BaseAdminSettings):
     list_display = ['pk', 'title', 'intro', 'body_as_markdown', 'created_at', 'deleted']
     list_filter = ['created_at', 'deleted']
     search_fields = ['title', 'intro', 'body']
+    date_hierarchy = 'created_at'
 
 
 @admin.register(models.Courses)
@@ -34,13 +35,8 @@ class LessonsAdmin(BaseAdminSettings):
 
 @admin.register(models.CourseTeachers)
 class CourseTeachersAdmin(BaseAdminSettings):
-    list_display = ['pk', 'get_course_name', 'first_name', 'second_name', 'created_at', 'deleted']
+    list_display = ['pk', 'first_name', 'second_name', 'created_at', 'deleted']
     search_fields = ['first_name', 'second_name']
-
-    def get_course_name(self, object):
-        return object.course
-    
-    get_course_name.short_description = 'Курс'
 
 
 @admin.register(models.Contacts)
