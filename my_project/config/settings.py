@@ -51,6 +51,8 @@ INSTALLED_APPS = [
 
     'markdownify.apps.MarkdownifyConfig',
     'social_django',
+    
+    'settingsapp',
     'authapp',
     'mainapp',
 ]
@@ -70,7 +72,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

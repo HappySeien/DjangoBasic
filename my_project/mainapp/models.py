@@ -1,37 +1,7 @@
 from django.db import models
+from settingsapp.models import BaseModel, NULLABLE
 
 # Create your models here.
-
-NULLABLE = {'blank': True, 'null': True}
-
-
-class BaseManager(models.Manager):
-    """
-    Базовая настройка менеджера моделей
-    """
-
-    def get_queryset(self):
-        return super().get_queryset().filter(deleted=False)
-
-
-class BaseModel(models.Model):
-    """
-    Базовая модель
-    """
-
-    objects = BaseManager()
-
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создана', editable=False)
-    updated_at =models.DateTimeField(auto_now=True, verbose_name='Обновлена', editable=False)
-    deleted = models.BooleanField(default=False)
-
-    def delete(self, *args) -> None:
-        self.deleted = True
-        self.save()
-
-
-    class Meta:
-        abstract = True
 
 
 class News(BaseModel):
@@ -50,6 +20,11 @@ class News(BaseModel):
     def delete(self, *args) -> None:
         return super().delete(*args)
 
+    class Meta:
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
+        ordering = ('-created_at',)
+
 
 class Courses(BaseModel):
     """
@@ -67,6 +42,10 @@ class Courses(BaseModel):
 
     def delete(self, *args) -> None:
         return super().delete(*args)
+
+    class Meta:
+        verbose_name = 'Курс'
+        verbose_name_plural = 'Курсы'
 
 
 class Lessons(BaseModel):
@@ -89,6 +68,8 @@ class Lessons(BaseModel):
     
     class Meta:
         ordering = ('course', 'num')
+        verbose_name = 'Лекция'
+        verbose_name_plural = 'Лекции'
 
 
 class CourseTeachers(BaseModel):
@@ -107,6 +88,10 @@ class CourseTeachers(BaseModel):
     def delete(self, *args) -> None:
         return super().delete(*args)
 
+    class Meta:
+        verbose_name = 'Преподаватель'
+        verbose_name_plural = 'Преподаватели'
+
 
 class Contacts(BaseModel):
     """
@@ -124,5 +109,9 @@ class Contacts(BaseModel):
 
     def delete(self, *args) -> None:
         return super().delete(*args)
+
+    class Meta:
+        verbose_name = 'Контакт'
+        verbose_name_plural = 'Контакты'
 
     

@@ -20,6 +20,7 @@ class NewsView(ListView):
     template_name = 'mainapp/news.html'
     paginate_by: int = 5
     model = models.News
+    queryset = model.non_delete_objects.all()
 
     def get_context_data(self, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
@@ -52,7 +53,7 @@ class ContactsView(TemplateView):
     def get_context_data(self, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
 
-        context_data['contacts'] = models.Contacts.objects.all()
+        context_data['contacts'] = models.Contacts.non_delete_objects.all()
 
         return context_data
 
@@ -65,7 +66,7 @@ class CoursesListView(ListView):
 
     paginate_by: int = 5
     model = models.Courses
-    queryset = models.Courses.objects.values_list('pk', 'cover', 'name')
+    queryset = model.non_delete_objects.values_list('pk', 'cover', 'name')
 
     def get_context_data(self, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
@@ -84,8 +85,8 @@ class CoursesDetailView(TemplateView):
         context_data = super().get_context_data(**kwargs)
 
         context_data["course_object"] = get_object_or_404(models.Courses, pk=pk)
-        context_data["lessons"] = models.Lessons.objects.filter(course=context_data["course_object"])
-        context_data["teachers"] = models.CourseTeachers.objects.filter(course=context_data["course_object"])
+        context_data["lessons"] = models.Lessons.non_delete_objects.filter(course=context_data["course_object"])
+        context_data["teachers"] = models.CourseTeachers.non_delete_objects.filter(course=context_data["course_object"])
         
         return context_data
 
