@@ -64,11 +64,8 @@ class EditProfileView(UpdateView):
     template_name: str = 'authapp/profile_edit.html'
     model = models.User
     form_class = forms.CustomUserChangeFrom
+    success_url = reverse_lazy('authapp:profile_edit')
 
     def get_object(self, queryset=None):
         return self.request.user
-    
-    def get_success_url(self):
-        return reverse_lazy('authapp:profile_edit', args=[self.request.user.pk])
-
     
