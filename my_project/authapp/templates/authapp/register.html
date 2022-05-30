@@ -1,21 +1,14 @@
 {% extends 'authapp/base.html' %}
-
 {% load crispy_forms_tags %}
-
 {% block content %}
-
     <div class="row justify-content-center my-2">
         <div class="col-lg-6">
             <h3>Регистрация нового пользователя</h3>
             <form method="post" class="mt-2" enctype="multipart/form-data">
-
                 {% csrf_token %}
-                
                 {{ form|crispy }}
-
                 <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
             </form>
         </div>
     </div>
-    
 {% endblock content %}

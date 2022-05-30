@@ -6,16 +6,11 @@
         <meta charset="utf-8">
         <meta name="viewport"
               content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
         {% include 'mainapp/includes/inc_css.html' %}
-
-
         <title>Welcome to GeekLab!</title>
     </head>
     <body>
-
         {% include 'authapp/includes/inc_messages.html' %}
-
         <div class="row justify-content-around align-items-center"
              style="height: 100vh; margin: 0px">
             <div class="text-center">
@@ -25,15 +20,11 @@
                     </a>
                 </p>
                 {% block content %}
-
                 {% endblock content %}
-
                 <!-- JavaScript section -->
                 {% include 'mainapp/includes/inc_js.html' %}
-
                 {% block js %}
-
-        <script>
+                    <script>
             $(document).ready(function () {
 
                 {% if messages %}
@@ -45,9 +36,7 @@
                 {% endif %}
 
                 });
-        </script>
-
-    {% endblock js %}
-    
-    </body>
-</html>
+                    </script>
+                {% endblock js %}
+            </body>
+        </html>

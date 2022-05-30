@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView, ListView
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
 
 from mainapp import models
 
@@ -27,21 +29,36 @@ class NewsView(ListView):
 
         return context_data
 
+class NewsCreateView(PermissionRequiredMixin, CreateView):
+    model = models.News
+    fields = '__all__'
+    success_url = reverse_lazy('mainapp:news')
+    permission_required = ('mainapp.add_news',)
 
-class NewsDetailView(TemplateView):
+
+class NewsUpdateView(PermissionRequiredMixin, UpdateView):
+    model = models.News
+    fields = '__all__'
+    success_url = reverse_lazy('mainapp:news')
+    permission_required = ('mainapp.change_news',)
+
+
+class NewsDeleteView(PermissionRequiredMixin, DeleteView):
+    model = models.News
+    success_url = reverse_lazy('mainapp:news')
+    permission_required = ('mainapp.delete_news',)
+
+
+
+class NewsDetailView(DetailView):
     """
     Отображение тела новости
     """
 
     template_name = "mainapp/news_detail.html"
+    model = models.News
     
-    def get_context_data(self, page, pk=None, **kwargs) -> dict():
-        context_data = super().get_context_data(pk=pk, **kwargs)
-        context_data["news_object"] = get_object_or_404(models.News, pk=pk)
-        context_data['page_num'] = page
-
-        return context_data
-
+    
 
 
 class ContactsView(TemplateView):
