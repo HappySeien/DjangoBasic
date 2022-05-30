@@ -1,14 +1,13 @@
-from django.views.generic import TemplateView
+from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.utils.safestring import mark_safe
-from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 
 from authapp import models
-import os
+from authapp import forms
 
 # Create your views here.
 
@@ -38,47 +37,15 @@ class CustomLoginView(LoginView):
         return self.render_to_response(self.get_context_data(form=form))
 
 
-class RegisterView(TemplateView):
+class RegisterView(CreateView):
     """
     Отображение страницы регистрация
     """
     template_name: str = 'authapp/register.html'
-
-    def post(self, request, *args, **kwargs):
-        try:
-            if all(
-                    (
-                        request.POST.get('username'),
-                        request.POST.get('email'),
-                        request.POST.get('password1'),
-                        request.POST.get('password1') == request.POST.get('password2'),
-                    )
-                ):
-                    new_user = models.User.objects.create(
-                        username=request.POST.get('username').lower(),  # Все в нижний регистр, для сохранения уникальности
-                        first_name=request.POST.get('first_name'),
-                        last_name=request.POST.get('last_name'),
-                        age=request.POST.get('age')
-                        if request.POST.get('age')
-                        else 0,
-                        avatar=request.FILES.get('avatar'),
-                        email=request.POST.get('email'),
-                    )
-                    new_user.set_password(request.POST.get('password1'))
-                    new_user.save()
-                    messages.add_message(
-                        request, messages.INFO, 
-                        _('Registration success!')
-                    )
-                    return HttpResponseRedirect(reverse_lazy('authapp:login'))
-        except Exception as exp:
-            messages.add_message(
-                request,
-                messages.WARNING,
-                mark_safe(f'Something goes worng:<br>{exp}')
-            )
-            return HttpResponseRedirect(reverse_lazy('authapp:register'))
-
+    model = get_user_model()
+    form_class = forms.CustomUserCreationFrom
+    success_url = reverse_lazy('authapp:login')
+        
 
 class LogoutView(LogoutView):
     """
@@ -90,37 +57,18 @@ class LogoutView(LogoutView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class EditProfileView(TemplateView, LoginRequiredMixin):
+class EditProfileView(UpdateView):
     """
     Отображение страницы редактирования профиля пользователя
     """
     template_name: str = 'authapp/profile_edit.html'
-    login_url = reverse_lazy('authapp:login')
+    model = models.User
+    form_class = forms.CustomUserChangeFrom
 
-    def post(self, request, *args, **kwargs):
-        try:
-            if request.POST.get('username'):
-                request.user.username = request.POST.get('username').lower()
-            if request.POST.get('first_name'):
-                request.user.first_name = request.POST.get('first_name')
-            if request.POST.get('last_name'):
-                request.user.last_name = request.POST.get('last_name')
-            if request.POST.get('age'):
-                request.user.age = request.POST.get('age')
-            if request.POST.get('email'):
-                request.user.email = request.POST.get('email')
-            if request.FILES.get('avatar'):
-                if request.user.avatar and os.path.exists(
-                    request.user.avatar.path
-                ):
-                    os.remove(request.user.avatar.path)
-                request.user.avatar = request.FILES.get('avatar')
-            request.user.save()
-            messages.add_message(request, messages.INFO, _('Saved!'))
-        except Exception as exp:
-            messages.add_message(
-                request,
-                messages.WARNING,
-                mark_safe(f'Something goes worng:<br>{exp}'),
-                )
-        return HttpResponseRedirect(reverse_lazy('authapp:profile_edit'))
+    def get_object(self, queryset=None):
+        return self.request.user
+    
+    def get_success_url(self):
+        return reverse_lazy('authapp:profile_edit', args=[self.request.user.pk])
+
+    
