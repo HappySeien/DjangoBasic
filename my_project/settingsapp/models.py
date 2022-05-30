@@ -4,6 +4,13 @@ from django.db import models
 # Create your models here.
 
 NULLABLE = {'blank': True, 'null': True}
+RATING = (
+    (5, '⭐⭐⭐⭐⭐'), 
+    (4, '⭐⭐⭐⭐'), 
+    (3, '⭐⭐⭐'), 
+    (2, '⭐⭐'), 
+    (1, '⭐')
+)
 
 
 class BaseManager(models.Manager):

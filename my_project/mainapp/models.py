@@ -1,5 +1,6 @@
 from django.db import models
-from settingsapp.models import BaseModel, NULLABLE
+from django.contrib.auth import get_user_model
+from settingsapp.models import BaseModel, NULLABLE, RATING
 
 # Create your models here.
 
@@ -91,6 +92,23 @@ class CourseTeachers(BaseModel):
     class Meta:
         verbose_name = 'Преподаватель'
         verbose_name_plural = 'Преподаватели'
+
+
+class CourseFeedback(BaseModel):
+    """
+    Модель таблицы отзывов
+    """
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE, verbose_name='Курс')
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='Пользователь')
+    feedback = models.TextField(default='Без отзыва', verbose_name='Отзыв')
+    rating = models.SmallIntegerField(choices=RATING, default=5, verbose_name='оценка')
+
+    def __str__(self):
+        return f'{self.course} ({self.user})'
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
 
 
 class Contacts(BaseModel):
