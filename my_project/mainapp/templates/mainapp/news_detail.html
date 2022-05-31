@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ object.title }}</h5>
                     <p class="card-text">{{ object.body }}</p>
-                    <a href="/" class="btn btn-primary">Назад</a>
+                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary">Назад</a>
                 </div>
             </div>
         </div>
