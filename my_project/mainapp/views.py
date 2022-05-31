@@ -51,7 +51,8 @@ class NewsUpdateView(PermissionRequiredMixin, UpdateView):
     permission_required = ('mainapp.change_news',)
 
     def get_success_url(self):
-        return reverse_lazy('mainapp:news', args=[1,])
+        previos_url = '/'.join(self.request.META.get('HTTP_REFERER').split('/')[:-2]) 
+        return previos_url
 
 
 class NewsDeleteView(PermissionRequiredMixin, DeleteView):
@@ -62,8 +63,8 @@ class NewsDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = ('mainapp.delete_news',)
 
     def get_success_url(self):
-        return reverse_lazy('mainapp:news', args=[1,])
-
+        previos_url = '/'.join(self.request.META.get('HTTP_REFERER').split('/')[:-2]) 
+        return previos_url
 
 
 class NewsDetailView(DetailView):

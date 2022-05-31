@@ -20,14 +20,14 @@
                                 </div>
                                 {% if perms.mainapp.change_news %}
                                     <div class="col-1 text-center">
-                                        <a href="{% url 'mainapp:news_update' pk=news.pk %}">
+                                        <a href="{% url 'mainapp:news_update' page=page_obj.number pk=news.pk %}">
                                             <i class="far fa-edit"></i>
                                         </a>
                                     </div>
                                 {% endif %}
                                 {% if perms.mainapp.delete_news %}
                                     <div class="col-1 text-center">
-                                        <a href="{% url 'mainapp:news_delete' pk=news.pk %}">
+                                        <a href="{% url 'mainapp:news_delete' page=page_obj.number pk=news.pk %}">
                                             <i class="far fa-trash-alt"></i>
                                         </a>
                                     </div>

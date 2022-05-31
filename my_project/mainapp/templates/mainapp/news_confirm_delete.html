@@ -6,19 +6,19 @@
             <p>
                 Поставить отметку удаления для новости:
                 <br>
-                "{{ object.title }}" от {{ object.created }}
+                "{{ object.title }}" от {{ object.created_at }}
             </p>
             <p>
                 <div class="row">
                     <div class="col-6">
-                        <form action="{% url 'mainapp:news_delete' pk=object.pk %}" method="post">
+                        <form action="{% url 'mainapp:news_delete' page=request.META.HTTP_REFERER|last pk=object.pk %}" method="post">
                             {% csrf_token %}
                             <button class="btn btn-danger btn-block" type="submit">Подтвердить</button>
                         </form>
                     </div>
                     <div class="col-6">
                         <a class="btn btn-primary btn-block"
-                           href="{% url 'mainapp:news' page=1 %}"
+                           href="{{ request.META.HTTP_REFERER }}"
                            role="button">Отмена</a>
                     </div>
                 </div>
