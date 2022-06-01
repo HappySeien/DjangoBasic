@@ -203,8 +203,10 @@ LOGGING = {
     'handlers': {
         'file': {
             'level': 'INFO',
-            'class': 'logging.FileHandler',
+            'class': 'logging.handlers.RotatingFileHandler',
             'filename': LOG_FILE,
+            'maxBytes': 1024,
+            'backupCount': 14,
             'formatter': 'console'
         },
         'console': {'class': 'logging.StreamHandler', 'formatter': 'console'}
