@@ -28,5 +28,9 @@ urlpatterns = [
     
     # docsite
     path('docsite/', views.DocSiteView.as_view(), name='docsite'),
+
+    # logs
+    path('log_view/', views.LogView.as_view(), name='log_view'),
+    path('log_download/', views.LogDownloadView.as_view(), name='log_download'),
     
 ]

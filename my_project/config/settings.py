@@ -189,3 +189,28 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOG_FILE = BASE_DIR / 'var' / 'logs' / 'log_file.log'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '[%(asctime)s] %(levelname)s %(name)s (%(lineno)d) %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': LOG_FILE,
+            'formatter': 'console'
+        },
+        'console': {'class': 'logging.StreamHandler', 'formatter': 'console'}
+    },
+    'loggers': {
+        'django': {'level': 'INFO', 'handlers': ['file', 'console']},
+        'mainapp': {'level': 'DEBUG', 'handlers': ['file']},
+    },
+}

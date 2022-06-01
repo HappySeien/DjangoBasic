@@ -1,13 +1,48 @@
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.shortcuts import get_object_or_404 
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from django.http import JsonResponse
+from django.http import FileResponse, JsonResponse
 from django.template.loader import render_to_string
+from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
+import logging
 
 from mainapp import models, forms
+from django.conf import settings
 
 # Create your views here.
+
+logger = logging.getLogger(__name__)
+
+
+class LogView(TemplateView):
+    """
+    Отображение страницы логирования на сайте
+    """
+    template_name: str = 'mainapp/log_view.html'
+
+    def get_context_data(self, **kwargs) -> dict():
+        context_data = super().get_context_data(**kwargs)
+        log_slice = []
+        with open(settings.LOG_FILE, 'r', encoding='utf-8') as f:
+            for i, line in enumerate(f):
+                if i == 1000:
+                    break
+                log_slice.insert(0, line)
+            context_data['log'] = ''.join(log_slice)
+        return context_data
+
+
+class LogDownloadView(UserPassesTestMixin, View):
+    """
+    Загрузка логов
+    """
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get(self, *args, **kwargs):
+        return FileResponse(open(settings.LOG_FILE, 'rb'))
 
 
 class IndexView(TemplateView):

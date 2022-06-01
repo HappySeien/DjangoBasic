@@ -48,3 +48,6 @@ lesson_0_staticSite/
 # media
 media/
 !avatar_default.svg
+
+# logs
+var/
