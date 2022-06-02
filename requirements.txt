@@ -22,6 +22,9 @@ django-debug-toolbar==3.4.0
 django-markdownify==0.9.1
 django-redis==5.2.0
 djlint==1.1.1
+dnspython==2.2.1
+eventlet==0.33.1
+greenlet==1.1.2
 html-tag-names==0.1.2
 html-void-elements==0.1.0
 idna==3.3
