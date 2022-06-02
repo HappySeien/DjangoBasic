@@ -2,6 +2,8 @@ from django.urls import path
 from mainapp import views
 from mainapp.apps import MainappConfig
 from django.views.generic import RedirectView
+from django.views.decorators.cache import cache_page
+
 
 
 app_name = MainappConfig.name
@@ -22,7 +24,7 @@ urlpatterns = [
     path('contacts/', views.ContactsView.as_view(), name='contacts'),
     
     # courses
-    path('courses/<int:page>', views.CoursesListView.as_view(), name='courses'),
+    path('courses/<int:page>', cache_page(60 * 60) (views.CoursesListView.as_view()), name='courses'),
     path('courses/<int:page>/detail/<int:pk>', views.CoursesDetailView.as_view(), name='courses_detail'),
     path('course_feedback/', views.CourseFeedbackFormProcessView.as_view(), name='course_feedback'),
     
