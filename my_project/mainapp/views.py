@@ -1,14 +1,19 @@
 from django.shortcuts import get_object_or_404 
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
+from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
 from django.http import FileResponse, JsonResponse
+from django.http.response import HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.core.cache import cache
 import logging
 
 from mainapp import models, forms
 from django.conf import settings
+from mainapp import tasks
 
 # Create your views here.
 
@@ -24,7 +29,7 @@ class LogView(TemplateView):
     def get_context_data(self, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
         log_slice = []
-        with open(settings.LOG_FILE, 'r', encoding='utf-8') as f:
+        with open(settings.LOG_FILE, 'r') as f:
             for i, line in enumerate(f):
                 if i == 1000:
                     break
@@ -119,10 +124,27 @@ class ContactsView(TemplateView):
 
     def get_context_data(self, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
-
+        if self.request.user.is_authenticated:
+            context_data['form'] = forms.MailFeedbackForm(user=self.request.user)
         context_data['contacts'] = models.Contacts.non_delete_objects.all()
 
         return context_data
+
+    def post(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            cache_lock_flag = cache.get(f'mail_feedback_lock_{self.request.user.pk}')
+            if not cache_lock_flag:
+                cache.set(f'mail_feedback_lock_{self.request.user.pk}', 'lock', timeout=300)
+                messages.add_message(self.request, messages.INFO, _('Message sended'))
+                tasks.send_feedback_mail.delay(
+                    {
+                        'user_id': self.request.POST.get('user_id'),
+                        'message': self.request.POST.get('message')
+                    }
+                )
+            else:
+                messages.add_message(self.request, messages.WARNING, _("You can send only one message per 5 minutes"))
+        return HttpResponseRedirect(reverse_lazy('mainapp:contacts'))
 
 
 class CoursesListView(ListView):
@@ -161,9 +183,14 @@ class CoursesDetailView(TemplateView):
                 context_data['feedback_form'] = forms.CourseFeedbackForm(
                     course=context_data['course_object'], user=self.request.user
                 )
-        context_data['feedback_list'] = models.CourseFeedback.objects.filter(
-            course=context_data['course_object']
-        ).order_by('-created_at', '-rating')
+        cached_feedback = cache.get(f'feedback_list_{pk}')
+        if not cached_feedback:
+            context_data['feedback_list'] = models.CourseFeedback.objects.filter(
+                course=context_data['course_object']
+            ).order_by('-created_at', '-rating')[:5].select_related()
+            cache.set(f'feedback_list_{pk}', context_data["feedback_list"], timeout=300)
+        else:
+            context_data["feedback_list"] = cached_feedback
         
         return context_data
 
