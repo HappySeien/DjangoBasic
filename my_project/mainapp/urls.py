@@ -13,7 +13,7 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     
     #news
-    path('news/<int:page>', views.NewsView.as_view(), name='news'),
+    path('news/<int:page>',cache_page(60 * 30) (views.NewsView.as_view()), name='news'),
     path('news/<int:page>/detail/<int:pk>', views.NewsDetailView.as_view(), name='news_detail'),
     path('news/create/', views.NewsCreateView.as_view(), name='news_create'),
     path('news/<int:page>/update/<int:pk>', views.NewsUpdateView.as_view(), name='news_update'),
