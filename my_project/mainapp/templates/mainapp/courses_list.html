@@ -1,34 +1,21 @@
 {% extends 'mainapp/base.html' %}
-
 {% block content %}
-
-{% load static %}
-
-<div class="container-md">
-        
-    <div class="row justify-content-center mt-3">
-        
-            {% for course in courses_list %}
-
+    {% load static %}
+    <div class="container-md">
+        <div class="row justify-content-center mt-3">
+            {% for course in page_obj %}
                 <div class="card col-sm-12 col-md-6 col-lg-4 border-0">
-                <a href="{% url 'mainapp:courses_detail' page=page_num pk=course.0 %}">
-                    <img src="{% static course.1 %}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">{{ course.2 }}</h5>
-                    </div>
-                </a>
+                    <a href="{% url 'mainapp:courses_detail' page=page_obj.number pk=course.0 %}">
+                        <img src="{% static course.1 %}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{ course.2 }}</h5>
+                        </div>
+                    </a>
                 </div>
-            
             {% endfor %}
-            
+        </div>
+        <!-- pagination -->
+        {% include 'mainapp/includes/inc_pagination.html' %}
+        <!-- /pagination -->
     </div>
-
-    <!-- pagination -->
-
-    {% include 'mainapp/includes/inc_pagination.html' %}
-
-    <!-- /pagination -->
-
-</div>
-
 {% endblock content %}

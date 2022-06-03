@@ -42,3 +42,12 @@ db.sqlite3-journal
 *.vsix
 
 lesson_0_staticSite/
+
+*.env
+
+# media
+media/
+!avatar_default.svg
+
+# logs
+var/

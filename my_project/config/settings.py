@@ -10,23 +10,39 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 JSON_DATA_MAINAPP = BASE_DIR / 'json_data/mainapp'
+
+# Под переменные окружения
+DOTENV_PATH = BASE_DIR / 'Variables.env'
+
+if os.path.exists(DOTENV_PATH):
+    load_dotenv(dotenv_path=DOTENV_PATH)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$p5+=f#=ez)z@q9x*2%ea0yru5zh6_mjc52vsgi8-o#54#9rmc'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+if DEBUG:
+    INTERNAL_IPS = [
+        '192.168.1.4',
+        '127.0.0.1',
+    ]
 
 
 # Application definition
@@ -40,7 +56,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'markdownify.apps.MarkdownifyConfig',
+    'social_django',
+    
+    'settingsapp',
+    'authapp',
     'mainapp',
+    'crispy_forms',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +73,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -58,18 +82,42 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+
+# social_django auth backend settings
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.vk.VKOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+    'config.backends.CaseInsensitiveModelBackend',
+    'config.backends.EmailBackend',
+)
+
+# github auth data
+SOCIAL_AUTH_GITHUB_KEY = os.getenv('SOCIAL_AUTH_GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = os.getenv('SOCIAL_AUTH_GITHUB_SECRET')
+
+# vk auth data
+SOCIAL_AUTH_VK_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_VK_OAUTH2_KEY')
+SOCIAL_AUTH_VK_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_VK_OAUTH2_SECRET')
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
+
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -103,6 +151,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Default user auth model
+
+AUTH_USER_MODEL = 'authapp.User'
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+# login, logout urls
+
+LOGIN_REDIRECT_URL = 'mainapp:index'
+
+LOGOUT_REDIRECT_URL = 'mainapp:index'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -125,7 +185,81 @@ STATICFILES_DIRS =[
     BASE_DIR / 'static',
 ]
 
+# Media filles
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# crispy
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+#log
+LOG_FILE = BASE_DIR / 'var' / 'logs' / 'log_file.log'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '[%(asctime)s] %(levelname)s %(name)s (%(lineno)d) %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOG_FILE,
+            'maxBytes': 10485760,
+            'backupCount': 14,
+            'formatter': 'console'
+        },
+        'console': {'class': 'logging.StreamHandler', 'formatter': 'console'}
+    },
+    'loggers': {
+        'django': {'level': 'INFO', 'handlers': ['file', 'console']},
+        'mainapp': {'level': 'DEBUG', 'handlers': ['file']},
+    },
+}
+
+# caches
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient'
+        },
+    },
+}
+
+# celery
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+# Read about sending email:
+# https://docs.djangoproject.com/en/3.2/topics/email/
+
+# Full list of email settings:
+# https://docs.djangoproject.com/en/3.2/ref/settings/#email
+
+# EMAIL_HOST = "localhost"
+# EMAIL_PORT = "25"
+
+# For debugging: python -m smtpd -n -c DebuggingServer localhost:25
+
+# EMAIL_HOST_USER = "django@geekshop.local"
+# EMAIL_HOST_PASSWORD = "geekshop"
+# EMAIL_USE_SSL = False
+# If server support TLS:
+# EMAIL_USE_TLS = True
+
+# Email as files for debug
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = BASE_DIR / 'var/email-messages'

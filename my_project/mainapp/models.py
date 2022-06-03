@@ -1,35 +1,8 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+from settingsapp.models import BaseModel, NULLABLE, RATING
 
 # Create your models here.
-
-
-class BaseManager(models.Manager):
-    """
-    Базовая настройка менеджера моделей
-    """
-
-    def get_queryset(self):
-        return super().get_queryset().filter(deleted=False)
-
-
-class BaseModel(models.Model):
-    """
-    Базовая модель
-    """
-
-    objects = BaseManager()
-
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создана', editable=False)
-    updated_at =models.DateTimeField(auto_now=True, verbose_name='Обновлена', editable=False)
-    deleted = models.BooleanField(default=False)
-
-    def delete(self, *args) -> None:
-        self.deleted = True
-        self.save()
-
-
-    class Meta:
-        abstract = True
 
 
 class News(BaseModel):
@@ -39,7 +12,7 @@ class News(BaseModel):
 
     title = models.CharField(max_length=256, verbose_name='Заголовок')
     intro = models.CharField(max_length=1024, verbose_name='Вступление')
-    body = models.TextField(blank=True, null=True, verbose_name='Текст')
+    body = models.TextField(**NULLABLE, verbose_name='Текст')
     body_as_markdown = models.BooleanField(default=False, verbose_name='Markdown')
 
     def __str__(self) -> str:
@@ -48,6 +21,11 @@ class News(BaseModel):
     def delete(self, *args) -> None:
         return super().delete(*args)
 
+    class Meta:
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
+        ordering = ('-created_at',)
+
 
 class Courses(BaseModel):
     """
@@ -55,7 +33,7 @@ class Courses(BaseModel):
     """
 
     name = models.CharField(max_length=256, verbose_name='Название')
-    description = models.TextField(verbose_name='Описание', blank=True, null=True)
+    description = models.TextField(verbose_name='Описание', **NULLABLE)
     description_as_markdown = models.BooleanField(default=False, verbose_name = 'Markdown')
     cost = models.DecimalField(max_digits=8, decimal_places=2, default=0, verbose_name='Цена')
     cover = models.CharField(max_length=25, default='no_image.svg', verbose_name='Изображение')
@@ -66,6 +44,10 @@ class Courses(BaseModel):
     def delete(self, *args) -> None:
         return super().delete(*args)
 
+    class Meta:
+        verbose_name = 'Курс'
+        verbose_name_plural = 'Курсы'
+
 
 class Lessons(BaseModel):
     """
@@ -75,7 +57,7 @@ class Lessons(BaseModel):
     course = models.ForeignKey(Courses, on_delete=models.CASCADE)
     num = models.PositiveIntegerField(verbose_name='Номер лекции')
     title = models.CharField(max_length=256, verbose_name='Тема лекции')
-    description = models.TextField(blank=True, null=True, verbose_name='Описание')
+    description = models.TextField(**NULLABLE, verbose_name='Описание')
     description_as_markdown = models.BooleanField(default=False, verbose_name = 'Markdown')
 
     def __str__(self) -> str:
@@ -87,6 +69,8 @@ class Lessons(BaseModel):
     
     class Meta:
         ordering = ('course', 'num')
+        verbose_name = 'Лекция'
+        verbose_name_plural = 'Лекции'
 
 
 class CourseTeachers(BaseModel):
@@ -105,6 +89,27 @@ class CourseTeachers(BaseModel):
     def delete(self, *args) -> None:
         return super().delete(*args)
 
+    class Meta:
+        verbose_name = 'Преподаватель'
+        verbose_name_plural = 'Преподаватели'
+
+
+class CourseFeedback(BaseModel):
+    """
+    Модель таблицы отзывов
+    """
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE, verbose_name='Курс')
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='Пользователь')
+    feedback = models.TextField(default='Без отзыва', verbose_name='Отзыв')
+    rating = models.SmallIntegerField(choices=RATING, default=5, verbose_name='оценка')
+
+    def __str__(self):
+        return f'{self.course} ({self.user})'
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+
 
 class Contacts(BaseModel):
     """
@@ -122,5 +127,9 @@ class Contacts(BaseModel):
 
     def delete(self, *args) -> None:
         return super().delete(*args)
+
+    class Meta:
+        verbose_name = 'Контакт'
+        verbose_name_plural = 'Контакты'
 
     
