@@ -9,9 +9,11 @@
                     <a class="page-link" href="{{ page_obj.previous_page_number }}">&lsaquo;</a>
                 </li>
             {% endif %}
-            <li class="page-item">
-                <a class="page-link" href="#">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</a>
+            {% for page in page_obj.paginator.page_range %}
+            <li class="page-item {% if page == page_obj.number %} active {% endif %}">
+                <a class="page-link" href="{{ page }}">{{ page}}</a>
             </li>
+            {% endfor %}
             {% if page_obj.has_next %}
                 <li class="page-item">
                     <a class="page-link" href="{{ page_obj.next_page_number }}">&rsaquo;</a>
