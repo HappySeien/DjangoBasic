@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         {% with request.resolver_match.url_name as url_name %}
@@ -17,10 +17,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item {% if url_name == 'news' %} active{% endif %}">
-                        <a class="nav-link" href="{% url 'mainapp:news' page=1 %}">Новости</a>
+                        <a class="nav-link" href="{% url 'mainapp:news' page=1 %}">{% translate "News" %}</a>
                     </li>
                     <li class="nav-item {% if url_name == 'courses' %} active{% endif %}">
-                        <a class="nav-link" href="{% url 'mainapp:courses' page=1 %}">Курсы</a>
+                        <a class="nav-link" href="{% url 'mainapp:courses' page=1 %}">{% translate "Courses" %}</a>
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
@@ -31,32 +31,32 @@
                                data-toggle="dropdown"
                                aria-haspopup="true"
                                aria-expanded="false">
-                                Профиль
+                                {% translate "Profile" %}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="ddProfile">
-                                <a class="dropdown-item" href="{% url 'authapp:profile_edit' %}">Редактировать профиль</a>
-                                <a class="dropdown-item" href="#">Мои курсы</a>
+                                <a class="dropdown-item" href="{% url 'authapp:profile_edit' %}">{% translate "Edit profile" %}</a>
+                                <a class="dropdown-item" href="#">{% translate "My courses" %}</a>
                                 <div class="dropdown-divider"></div>
                                 {% if user.is_staff %}
-                                    <a class="dropdown-item" href="{% url 'admin:index' %}">Модерация</a>
+                                    <a class="dropdown-item" href="{% url 'admin:index' %}">{% translate "Moderation" %}</a>
                                 {% endif %}
                                 {% if user.is_superuser %}
-                                    <a class="dropdown-item" href="{% url 'admin:index' %}">Административный раздел</a>
+                                    <a class="dropdown-item" href="{% url 'admin:index' %}">{% translate "Admin panel" %}</a>
                                     <a class="dropdown-item"
                                        href="{% url 'mainapp:log_view' %}"
-                                       target="_blank">Логи</a>
+                                       target="_blank">{% translate "Logs" %}</a>
                                 {% endif %}
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'authapp:logout' %}">Выход</a>
+                                <a class="dropdown-item" href="{% url 'authapp:logout' %}">{% translate "Logout" %}</a>
                             </div>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'authapp:login' %}">Вход</a>
+                            <a class="nav-link" href="{% url 'authapp:login' %}">{% translate "Login" %}</a>
                         </li>
                     {% endif %}
                     <li class="nav-item {% if url_name == 'contacts' %} active{% endif %}">
-                        <a class="nav-link" href="{% url 'mainapp:contacts' %}">Контакты</a>
+                        <a class="nav-link" href="{% url 'mainapp:contacts' %}">{% translate "Contacts" %}</a>
                     </li>
                 </ul>
                 <span><a href="#">🇷🇺</a> <i class="fas fa-grip-lines-vertical"></i> <a href="#">🇬🇧</a></span>

@@ -1,13 +1,13 @@
 {% extends 'mainapp/base.html' %}
 {% block content %}
-    {% load static %}
+    {% load static i18n %}
     <div class="container-md">
         <div class="row justify-content-center align-items-center mt-3">
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Документация по сайту</div>
+                    <div class="card-header">{% translate "Site documentation" %}</div>
                     <div class="card-body">
-                        <h5 class="card-title">CSS-стили</h5>
+                        <h5 class="card-title">{% translate "CSS-style" %}</h5>
                         <p class="card-text">
                             <ul>
                                 <li>
@@ -20,35 +20,33 @@
                                 </li>
                             </ul>
                         </p>
-                        <h5 class="card-title">Иконки</h5>
+                        <h5 class="card-title">{% translate "Icons" %}</h5>
                         <p class="card-text">
                             <a href="https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use">FontAwesome 5.15.3</a>
                         </p>
-                        <h5 class="card-title">Графики</h5>
+                        <h5 class="card-title">{% translate "Charts" %}</h5>
                         <p class="card-text">
                             <a href="https://www.chartjs.org/">ChartJS</a>
                         </p>
-                        <h5 class="card-title">Графика</h5>
+                        <h5 class="card-title">{% translate "Graphics" %}</h5>
                         <p class="card-text">
                             <ul>
                                 <li>
                                     <a href="https://www5.flamingtext.com/"
                                        target="_blank"
-                                       rel="noopener noreferrer">Логотип by
-                                    flamingtext.com</a>
+                                       rel="noopener noreferrer">
+                                       {% translate "Logo by flamingtext.com" %}</a>
                                 </li>
                                 <li>
                                     <a href="https://www.pexels.com/ru-ru"
                                        target="_blank"
-                                       rel="noopener noreferrer">Фотографии by
-                                    pexels.com</a>. Все изображения распространяются под бесплатной лицензией. Для страницы обзоров фотографии
-                                    должны быть с соотношением сторон кратным 2.912 (например, 1920x659)
+                                       rel="noopener noreferrer">{% translate "Photo by pexels.com" %}</a>
+                                       {% translate ". All images are distributed under a free license. For the reviews page, the photos must have an aspect ratio multiple of 2.912 (for example, 1920x659)" %} 
                                 </li>
                                 <li>
                                     <a href="https://getavataaars.com/"
                                        target="_blank"
-                                       rel="noopener noreferrer">Аватарки пользователей by
-                                    getavataaars.com</a>
+                                       rel="noopener noreferrer">{% translate "Avatars of users by getavataaars.com" %}</a>
                                 </li>
                             </ul>
                         </p>

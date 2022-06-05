@@ -1,9 +1,9 @@
 {% extends 'mainapp/base.html' %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
 {% block content %}
     <div class="row justify-content-center my-2">
         <div class="col-lg-6">
-            <h3>Редактирование профиля</h3>
+            <h3>{% translate "Editing a profile" %}</h3>
             <div class="row justify-content-center">
                 <div class="col-sm-7 col-md-5 col-lg-4">
                     {% if user.avatar %}
@@ -16,7 +16,7 @@
             <form method="post" class="mt-2" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type=" submit" class="btn btn-primary btn-block">Сохранить</button>
+                <button type=" submit" class="btn btn-primary btn-block">{% translate "Save" %}</button>
             </form>
         </div>
     </div>

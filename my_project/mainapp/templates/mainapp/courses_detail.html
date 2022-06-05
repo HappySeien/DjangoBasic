@@ -1,5 +1,5 @@
 {% extends 'mainapp/base.html' %}
-{% load static markdownify crispy_forms_tags cache%}
+{% load static markdownify crispy_forms_tags cache i18n %}
 {% block title %}
     {{ course_object.name }}
 {% endblock title %}
@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-12 align-self-end">
                     <p>
-                        <small>Преподаватели</small>
+                        <small>{% translate "Teachers" %}</small>
                         <br>
                         {% for teacher in teachers %}
                             {{ teacher.second_name }} {{ teacher.first_name }}
@@ -37,22 +37,22 @@
                 </div>
                 <div class="col-12 align-self-end d-none d-md-block">
                     <p class="text-center mt-2">
-                        <small class="text-uppercase">цена</small>
+                        <small class="text-uppercase">{% translate "Cost" %}</small>
                         <br>
                         <span style="font-size: 30pt;">{{ course_object.cost }}</span>
                         <br>
-                        <a href="#" class="btn btn-outline-primary btn-block"role="button">Купить</a>
+                        <a href="#" class="btn btn-outline-primary btn-block"role="button">{% translate "Buy" %}</a>
                     </p>
                 </div>
             </div>
         </div>
         <div class="col-sm-12 d-md-none order-3 order-sm-3">
             <p class="text-center">
-                <small class="text-uppercase">цена</small>
+                <small class="text-uppercase">{% translate "Cost" %}</small>
                 <br>
                 <span style="font-size: 30pt;">{{ course_object.cost }}</span>
                 <br>
-                <a href="#" class="btn btn-outline-primary btn-block"role="button">Купить</a>
+                <a href="#" class="btn btn-outline-primary btn-block"role="button">{% translate "Buy" %}</a>
             </p>
         </div>
     </div>
@@ -95,23 +95,22 @@
         {% endfor %}
         {% endcache %}
     </div>
-    <h3>Отзывы</h3>
+    <h3>{% translate "Feedback" %}</h3>
     <div id="feedback_list">
         {% if feedback_list %}
             {% for item in feedback_list %}
                 {% include 'mainapp/includes/inc_feedback_card.html' %}
             {% endfor %}
         {% else %}
-            <p>No feedback yet. Be first!</p>
+            <p>{% translate "No feedback yet. Be first!" %}</p>
         {% endif %}
     </div>
     {% if feedback_form %}
         <div class="card" id="cardForm">
             <div class="card-body">
-                <h5 class="card-title">Добавить отзыв</h5>
+                <h5 class="card-title">{% translate "Add feedback" %}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">
-                    Вы ещё не оставляли отзыв к этому
-                    курсу
+                    {% translate "You haven't left a feedback for this yet course" %}
                 </h6>
                 <p class="card-text">
                     <form action="{% url 'mainapp:course_feedback' %}"
@@ -120,7 +119,7 @@
                         {% csrf_token %}
                         {{ feedback_form|crispy }}
                     </form>
-                    <button id="feedbackSubmit" class="btn btn-primary btn-block">Отправить</button>
+                    <button id="feedbackSubmit" class="btn btn-primary btn-block">{% translate "Send" %}</button>
                 </p>
             </div>
         </div>

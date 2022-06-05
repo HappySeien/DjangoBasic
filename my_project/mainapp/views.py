@@ -56,6 +56,19 @@ class IndexView(TemplateView):
     """
     template_name = 'mainapp/index.html'
 
+    def get_context_data(self, **kwargs) -> dict():
+        context_data = super().get_context_data(**kwargs)
+        context_data['greetings_text'] = _(
+            """
+            On this portal we have gathered a community of people united by one goal - to gain knowledge! In the modern world
+            it is already difficult to imagine a person not communicating with a computer. The ubiquitous penetration of the Internet has given
+            an opportunity to unite people and make knowledge accessible like never before. You have a unique
+            the opportunity to gain relevant knowledge using modern technologies. Don't miss your chance and switch to
+            the "Courses" tab, sign up for courses and become a sought-after specialist."""
+        )
+        
+        return context_data
+
 
 class NewsView(ListView):
     """

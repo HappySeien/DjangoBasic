@@ -1,3 +1,4 @@
+{% load i18n %}
 <div class="container-lg mt-auto">
     <hr>
     <div class="row justify-content-center">
@@ -8,18 +9,18 @@
             <p>
                 <ul class="list-unstyled">
                     <li>
-                        <a href="{% url 'mainapp:index' %}">Домашняя</a>
+                        <a href="{% url 'mainapp:index' %}">{% translate "Home" %}</a>
                     </li>
                     <li>
-                        <a href="{% url 'mainapp:news' page=1 %}">Новости</a>
+                        <a href="{% url 'mainapp:news' page=1 %}">{% translate "News" %}</a>
                     </li>
                     {% if user.is_authenticated %}
                         <li>
-                            <a href="{% url 'authapp:logout' %}">Выйти</a>
+                            <a href="{% url 'authapp:logout' %}">{% translate "Logout" %}</a>
                         </li>
                     {% else %}
                         <li>
-                            <a href="{% url 'authapp:login' %}">Войти</a>
+                            <a href="{% url 'authapp:login' %}">{% translate "Login" %}</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -27,28 +28,28 @@
         </div>
         <div class="col-sm-6 col-md-3 text-center">
             <p>
-                <strong>Полезное</strong>
+                <strong>{% translate "Useful" %}</strong>
             </p>
             <p>
                 <ul class="list-unstyled">
                     <li>
-                        <a href="#">Положения &amp; Условия</a>
+                        <a href="#"> {% translate "Terms" %} &amp; {% translate "Conditions" %}</a>
                     </li>
                     <li>
-                        <a href="#">Конфиденциальность &amp; Cookies</a>
+                        <a href="#">{% translate "Privacy" %} &amp; Cookies</a>
                     </li>
                     <li>
-                        <a href="#">Документация по API</a>
+                        <a href="#">{% translate "API Documentation" %}</a>
                     </li>
                     <li>
-                        <a href="{% url 'mainapp:docsite' %}">Документация по сайту</a>
+                        <a href="{% url 'mainapp:docsite' %}">{% translate "Site documentation" %}</a>
                     </li>
                 </ul>
             </p>
         </div>
         <div class="col-sm-6 col-md-3 text-center">
             <p>
-                <strong>Мы в социальных сетях</strong>
+                <strong>{% translate "We are in social networks" %}</strong>
             </p>
             <p>
                 <div class="row justify-content-around">
@@ -67,7 +68,7 @@
                 </div>
             </p>
             <p>
-                <strong>Наше приложение</strong>
+                <strong>{% translate "Our application" %}</strong>
             </p>
             <p>
                 <div class="row justify-content-around">
