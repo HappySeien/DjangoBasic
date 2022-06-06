@@ -9,19 +9,21 @@ from django.template.loader import render_to_string
 from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.core.cache import cache
+
 import logging
 
 from mainapp import models, forms
 from django.conf import settings
 from mainapp import tasks
 from collections import deque
+from mainapp.mixins import SuperuserRequiredMixin
 
 # Create your views here.
 
 logger = logging.getLogger(__name__)
 
 
-class LogView(TemplateView):
+class LogView(SuperuserRequiredMixin, TemplateView):
     """
     Отображение страницы логирования на сайте
     """
