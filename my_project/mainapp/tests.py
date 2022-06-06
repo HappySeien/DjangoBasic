@@ -1,8 +1,11 @@
 from settingsapp.tests import DefaultTestData
 from django.urls import reverse
+from django.core import mail as django_mail
 
 from http import HTTPStatus
 from mainapp import models
+from authapp import models as authapp_models
+from mainapp import tasks
 
 # Create your tests here.
 
@@ -138,3 +141,17 @@ class NewsCRUDtest(DefaultTestData):
         )
         news_obj.refresh_from_db()
         self.assertTrue(news_obj.deleted)
+
+
+class TestTaskMailSend(DefaultTestData):
+    """
+    Тест отложенной задачи по отправке сообщения на email
+    """
+    
+    def test_mail_send(self):
+        message_text = 'test_message_text'
+        user_obj = authapp_models.User.objects.first()
+        tasks.send_feedback_mail(
+            {'user_id': user_obj.id, 'message': message_text}
+        )
+        self.assertEqual(django_mail.outbox[0].body, message_text)
