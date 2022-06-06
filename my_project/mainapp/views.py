@@ -14,6 +14,7 @@ import logging
 from mainapp import models, forms
 from django.conf import settings
 from mainapp import tasks
+from collections import deque
 
 # Create your views here.
 
@@ -30,9 +31,7 @@ class LogView(TemplateView):
         context_data = super().get_context_data(**kwargs)
         log_slice = []
         with open(settings.LOG_FILE, 'r') as f:
-            for i, line in enumerate(f):
-                if i == 1000:
-                    break
+            for line in deque(f, 1000):
                 log_slice.insert(0, line)
             context_data['log'] = ''.join(log_slice)
         return context_data
