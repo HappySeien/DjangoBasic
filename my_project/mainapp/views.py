@@ -16,7 +16,7 @@ from mainapp import models, forms
 from django.conf import settings
 from mainapp import tasks
 from collections import deque
-from mainapp.mixins import SuperuserRequiredMixin
+from settingsapp.mixins import SuperuserRequiredMixin
 
 # Create your views here.
 
