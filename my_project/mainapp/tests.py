@@ -51,7 +51,90 @@ class StaticPagesSmokeTest(DefaultTestData):
         response = self.client.get(path)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
-    def test_log_page_open(self):
+    def test_log_page_open_deny_access(self):
         path = reverse('mainapp:log_view')
         response = self.client.get(path)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    def test_log_page_open_admin(self):
+        path = reverse('mainapp:log_view')
+        response = self.client_with_auth.get(path)
         self.assertEqual(response.status_code, HTTPStatus.OK)
+
+
+class NewsCRUDtest(DefaultTestData):
+    """
+    Тесты доступа к CRUD опциям и их работы
+    """
+
+    def setUp(self) -> None:
+        return super().setUp()
+    
+    def test_page_open_crete_deny_access(self):
+        path = reverse('mainapp:news_create')
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    def test_page_open_crete_by_admin(self):
+        path = reverse('mainapp:news_create')
+        response = self.client_with_auth.get(path)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+    def test_create_in_web(self):
+        counter_before = models.News.objects.count()
+        path = reverse('mainapp:news_create')
+        self.client_with_auth.post(
+            path,
+            data={
+                'title': 'NewTestNews001',
+                'intro': 'NewTestNews001',
+                'body': 'NewTestNews001',
+            },
+        )
+        self.assertGreater(models.News.objects.count(), counter_before)
+
+    def test_page_open_update_deny_access(self):
+        news_obj = models.News.objects.first()
+        path = reverse('mainapp:news_update', args=[1, news_obj.pk])
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    def test_page_open_update_by_admin(self):
+        news_obj = models.News.objects.first()
+        path = reverse('mainapp:news_update', args=[1, news_obj.pk])
+        response = self.client_with_auth.get(path)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+    def test_update_in_web(self):
+        new_title = 'NewTestTitle001'
+        news_obj = models.News.objects.first()
+        self.assertNotEqual(news_obj.title, new_title)
+        path = reverse('mainapp:news_update', args=[1, news_obj.pk])
+        response = self.client_with_auth.post(
+            path,
+            data={
+                'title': new_title,
+                'intro': news_obj.intro,
+                'body': news_obj.body,
+            },
+            HTTP_REFERER=reverse('mainapp:news', args=[1,])
+        )
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        news_obj.refresh_from_db()
+        self.assertEqual(news_obj.title, new_title)
+
+    def test_delete_deny_access(self):
+        news_obj = models.News.objects.first()
+        path = reverse('mainapp:news_delete', args=[1, news_obj.pk])
+        result = self.client.post(path)
+        self.assertEqual(result.status_code, HTTPStatus.FOUND)
+
+    def test_delete_in_web(self):
+        news_obj = models.News.objects.first()
+        path = reverse('mainapp:news_delete', args=[1, news_obj.pk])
+        self.client_with_auth.post(
+            path,
+            HTTP_REFERER=reverse('mainapp:news', args=[1,])
+        )
+        news_obj.refresh_from_db()
+        self.assertTrue(news_obj.deleted)
