@@ -1,8 +1,13 @@
 from settingsapp.tests import DefaultTestData
 from django.urls import reverse
 from django.core import mail as django_mail
+from django.conf import settings
+from django.test import TestCase
 
 from http import HTTPStatus
+import pickle
+from unittest import mock
+
 from mainapp import models
 from authapp import models as authapp_models
 from mainapp import tasks
@@ -22,25 +27,9 @@ class StaticPagesSmokeTest(DefaultTestData):
         response = self.client.get(path)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
-    def test_News_list_page_open(self):
-        path = reverse('mainapp:news', args=[1,])
-        response = self.client.get(path)
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-
     def test_News_detail_page_open(self):
         news_obj = models.News.objects.first()
         path = reverse('mainapp:news_detail', args=[1, news_obj.pk ])
-        response = self.client.get(path)
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-
-    def test_courses_list_page_open(self):
-        path = reverse('mainapp:courses', args=[1,])
-        response = self.client.get(path)
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-
-    def test_courses_detail_page_open(self):
-        course_obj = models.Courses.objects.first()
-        path = reverse('mainapp:courses_detail', args=[1, course_obj.pk])
         response = self.client.get(path)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
@@ -141,6 +130,49 @@ class NewsCRUDtest(DefaultTestData):
         )
         news_obj.refresh_from_db()
         self.assertTrue(news_obj.deleted)
+
+
+class TestCachedPageWithMonk(TestCase):
+    """
+    Тестирование кешированных страниц
+    """
+    fixtures = (
+        'mainapp/fixtures/001_news.json',
+        'mainapp/fixtures/002_courses.json',
+        'mainapp/fixtures/003_lessons.json',
+        'mainapp/fixtures/004_teachers.json',
+    )
+
+    def test_News_list_page_open(self):
+        path = reverse('mainapp:news', args=[1,])
+        with open(
+            settings.BASE_DIR / 'mainapp/fixtures/011_news_list_.bin', 'rb'
+        ) as inpf, mock.patch('django.core.cache.cache.get') as mocked_cache:
+            mocked_cache.return_value = pickle.load(inpf)
+            response = self.client.get(path)
+            self.assertEqual(response.status_code, HTTPStatus.OK)
+            self.assertTrue(mocked_cache.called)
+    
+    def test_courses_list_page_open(self):
+        path = reverse('mainapp:courses', args=[1,])
+        with open(
+            settings.BASE_DIR / 'mainapp/fixtures/012_courses_list_.bin', 'rb'
+        ) as inpf, mock.patch('django.core.cache.cache.get') as mocked_cache:
+            mocked_cache.return_value = pickle.load(inpf)
+            response = self.client.get(path)
+            self.assertEqual(response.status_code, HTTPStatus.OK)
+            self.assertTrue(mocked_cache.called)
+        
+    def test_courses_detail_page_open(self):
+        course_obj = models.Courses.objects.first()
+        path = reverse('mainapp:courses_detail', args=[1, course_obj.pk])
+        with open(
+            settings.BASE_DIR / 'mainapp/fixtures/013_feedback_list_1.bin', 'rb'
+        ) as inpf, mock.patch('django.core.cache.cache.get') as mocked_cache:
+            mocked_cache.return_value = pickle.load(inpf)
+            response = self.client.get(path)
+            self.assertEqual(response.status_code, HTTPStatus.OK)
+            self.assertTrue(mocked_cache.called)
 
 
 class TestTaskMailSend(DefaultTestData):
