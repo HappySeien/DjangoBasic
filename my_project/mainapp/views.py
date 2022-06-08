@@ -9,18 +9,25 @@ from django.template.loader import render_to_string
 from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.core.cache import cache
+
 import logging
 
 from mainapp import models, forms
 from django.conf import settings
 from mainapp import tasks
+from collections import deque
+from settingsapp.mixins import SuperuserRequiredMixin
+
+# for tests
+# import pickle
+# from django.conf import settings
 
 # Create your views here.
 
 logger = logging.getLogger(__name__)
 
 
-class LogView(TemplateView):
+class LogView(SuperuserRequiredMixin, TemplateView):
     """
     Отображение страницы логирования на сайте
     """
@@ -30,9 +37,7 @@ class LogView(TemplateView):
         context_data = super().get_context_data(**kwargs)
         log_slice = []
         with open(settings.LOG_FILE, 'r') as f:
-            for i, line in enumerate(f):
-                if i == 1000:
-                    break
+            for line in deque(f, 1000):
                 log_slice.insert(0, line)
             context_data['log'] = ''.join(log_slice)
         return context_data
@@ -56,6 +61,19 @@ class IndexView(TemplateView):
     """
     template_name = 'mainapp/index.html'
 
+    def get_context_data(self, **kwargs) -> dict():
+        context_data = super().get_context_data(**kwargs)
+        context_data['greetings_text'] = _(
+            """
+            On this portal we have gathered a community of people united by one goal - to gain knowledge! In the modern world
+            it is already difficult to imagine a person not communicating with a computer. The ubiquitous penetration of the Internet has given
+            an opportunity to unite people and make knowledge accessible like never before. You have a unique
+            the opportunity to gain relevant knowledge using modern technologies. Don't miss your chance and switch to
+            the "Courses" tab, sign up for courses and become a sought-after specialist."""
+        )
+        
+        return context_data
+
 
 class NewsView(ListView):
     """
@@ -67,6 +85,14 @@ class NewsView(ListView):
 
     def get_context_data(self, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
+
+        # Archive object for tests --->
+        # with open(
+        #     settings.BASE_DIR / 'mainapp/fixtures/011_news_list_.bin', 'wb'
+        # ) as outf:
+        #   pickle.dump(context_data['page_obj'], outf)
+        # <--- Archive object for tests
+
 
         return context_data
 
@@ -143,7 +169,7 @@ class ContactsView(TemplateView):
                     }
                 )
             else:
-                messages.add_message(self.request, messages.WARNING, _("You can send only one message per 5 minutes"))
+                messages.add_message(self.request, messages.WARNING, _('You can send only one message per 5 minutes'))
         return HttpResponseRedirect(reverse_lazy('mainapp:contacts'))
 
 
@@ -160,6 +186,13 @@ class CoursesListView(ListView):
     def get_context_data(self, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
 
+        # Archive object for tests --->
+        # with open(
+        #     settings.BASE_DIR / 'mainapp/fixtures/012_courses_list_.bin', 'wb'
+        # ) as outf:
+        #   pickle.dump(context_data['page_obj'], outf)
+        # <--- Archive object for tests
+
         return context_data
 
 
@@ -168,14 +201,14 @@ class CoursesDetailView(TemplateView):
     Отображение подробной информации о курсе
     """
 
-    template_name = "mainapp/courses_detail.html"
+    template_name = 'mainapp/courses_detail.html'
     
     def get_context_data(self, pk=None, **kwargs) -> dict():
         context_data = super().get_context_data(**kwargs)
 
-        context_data["course_object"] = get_object_or_404(models.Courses, pk=pk)
-        context_data["lessons"] = models.Lessons.non_delete_objects.filter(course=context_data["course_object"])
-        context_data["teachers"] = models.CourseTeachers.non_delete_objects.filter(course=context_data["course_object"])
+        context_data['course_object'] = get_object_or_404(models.Courses, pk=pk)
+        context_data['lessons'] = models.Lessons.non_delete_objects.filter(course=context_data['course_object'])
+        context_data['teachers'] = models.CourseTeachers.non_delete_objects.filter(course=context_data['course_object'])
         if not self.request.user.is_anonymous:
             if not models.CourseFeedback.objects.filter(
                 course = context_data['course_object'], user=self.request.user
@@ -188,10 +221,18 @@ class CoursesDetailView(TemplateView):
             context_data['feedback_list'] = models.CourseFeedback.objects.filter(
                 course=context_data['course_object']
             ).order_by('-created_at', '-rating')[:5].select_related()
-            cache.set(f'feedback_list_{pk}', context_data["feedback_list"], timeout=300)
-        else:
-            context_data["feedback_list"] = cached_feedback
+            cache.set(f'feedback_list_{pk}', context_data['feedback_list'], timeout=300)
         
+        # Archive object for tests --->
+            # with open(
+            #     settings.BASE_DIR / f'mainapp/fixtures/013_feedback_list_{pk}.bin', 'wb'
+            # ) as outf:
+            #     pickle.dump(context_data['feedback_list'], outf)
+        # <--- Archive object for tests
+        
+        else:
+            context_data['feedback_list'] = cached_feedback
+
         return context_data
 
 

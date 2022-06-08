@@ -1,13 +1,13 @@
 {% extends 'mainapp/base.html' %}
-{% load email_to_link crispy_forms_tags %}
+{% load email_to_link crispy_forms_tags i18n %}
 {% block content %}
     {% load static %}
     <div class="container-md">
         <p>
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
-                    <h1 class="display-4">Наши контакты</h1>
-                    <p class="lead">Обязательно свяжитесь с нами! Ваш комфорт - наша забота.</p>
+                    <h1 class="display-4">{% translate "Our contacts" %}</h1>
+                    <p class="lead">{% translate "Be sure to contact us! Your comfort is our concern." %}</p>
                 </div>
             </div>
         </p>
@@ -54,11 +54,11 @@
             </div>
             {% if form %}
                 <p>
-                    <h3>Отправить сообщение в техподдержку</h3>
+                    <h3>{% translate "Send a message to tech support" %}</h3>
                     <form method="post">
                         {% csrf_token %}
                         {{ form|crispy }}
-                        <button type="submit" class="btn btn-primary btn-block">Отаправить</button>
+                        <button type="submit" class="btn btn-primary btn-block">{% translate "Send" %}</button>
                     </form>
                 </p>
             {% endif %}

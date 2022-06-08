@@ -1,10 +1,11 @@
 {% extends 'mainapp/base.html' %}
+{% load i18n %}
 {% block content %}
     <div class="row justify-content-center pt-3">
         <div class="col-md-8 col-lg-6">
             <h2>Пометить новость удалённой?</h2>
             <p>
-                Поставить отметку удаления для новости:
+                {% translate "Mark the deletion for the news:" %}
                 <br>
                 "{{ object.title }}" от {{ object.created_at }}
             </p>
@@ -13,13 +14,13 @@
                     <div class="col-6">
                         <form action="{% url 'mainapp:news_delete' page=request.META.HTTP_REFERER|last pk=object.pk %}" method="post">
                             {% csrf_token %}
-                            <button class="btn btn-danger btn-block" type="submit">Подтвердить</button>
+                            <button class="btn btn-danger btn-block" type="submit">{% translate "Confirm" %}</button>
                         </form>
                     </div>
                     <div class="col-6">
                         <a class="btn btn-primary btn-block"
                            href="{{ request.META.HTTP_REFERER }}"
-                           role="button">Отмена</a>
+                           role="button">{% translate "Cancel" %}</a>
                     </div>
                 </div>
             </p>
