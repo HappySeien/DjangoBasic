@@ -8,6 +8,7 @@ class LoadTestingBraniacLMS(HttpUser):
         # Mainapp
         self.client.get(f'http://{SERVER_IP_ADDR}/mainapp/')
         self.client.get(f'http://{SERVER_IP_ADDR}/mainapp/courses/1')
+        self.client.get(f'http://{SERVER_IP_ADDR}/mainapp/courses/1/detail/1')
         self.client.get(f'http://{SERVER_IP_ADDR}/mainapp/news/1')
         self.client.get(f'http://{SERVER_IP_ADDR}/mainapp/news/1/detail/18')
         self.client.get(f'http://{SERVER_IP_ADDR}/mainapp/contacts/')
