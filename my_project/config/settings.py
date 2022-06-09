@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 JSON_DATA_MAINAPP = BASE_DIR / 'json_data/mainapp'
 
 # Под переменные окружения
-DOTENV_PATH = BASE_DIR / 'Variables.env'
+DOTENV_PATH = BASE_DIR / '.env'
 
 if os.path.exists(DOTENV_PATH):
     load_dotenv(dotenv_path=DOTENV_PATH)
@@ -34,7 +34,9 @@ if os.path.exists(DOTENV_PATH):
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.getenv('DEBUG') == 'True' else False
+
+ENV_TYPE = os.getenv('ENV_TYPE')
 
 ALLOWED_HOSTS = ['*']
 
@@ -126,12 +128,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if ENV_TYPE == 'local':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'lms',
+            'USER': 'postgres',
+        }
+    }
 
 
 # Password validation
@@ -182,9 +193,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS =[
-    BASE_DIR / 'static',
-]
+if ENV_TYPE == 'local':
+    STATICFILES_DIRS =[
+        BASE_DIR / 'static',
+    ]
+else:
+    STATIC_ROOT = BASE_DIR / 'static'
 
 # Media filles
 
